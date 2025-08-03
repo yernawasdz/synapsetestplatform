@@ -22,7 +22,7 @@ const TestEditor = () => {
     category_id: '',
     image_url: '',
     table_data: '',
-    options: ['', '', '', ''],
+    options: ['', '', '', '', ''],
     correct_answer: ''
   });
 
@@ -125,7 +125,7 @@ const TestEditor = () => {
         category_id: '',
         image_url: '',
         table_data: '',
-        options: ['', '', '', ''],
+        options: ['', '', '', '', ''],
         correct_answer: ''
       });
       setShowQuestionForm(false);
@@ -143,7 +143,7 @@ const TestEditor = () => {
       category_id: question.category_id.toString(),
       image_url: question.image_url || '',
       table_data: question.table_data ? JSON.stringify(question.table_data, null, 2) : '',
-      options: [...question.options, '', '', '', ''].slice(0, 4),
+      options: [...question.options, '', '', '', '', ''].slice(0, 5),
       correct_answer: question.correct_answer
     });
     setShowQuestionForm(true);
@@ -222,7 +222,7 @@ const TestEditor = () => {
                   category_id: categories[0]?.id.toString() || '',
                   image_url: '',
                   table_data: '',
-                  options: ['', '', '', ''],
+                  options: ['', '', '', '', ''],
                   correct_answer: ''
                 });
               }}

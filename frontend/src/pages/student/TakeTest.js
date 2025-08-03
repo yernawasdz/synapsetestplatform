@@ -43,10 +43,10 @@ const TakeTest = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Check if all questions are answered
+    // Check if all questions are answered (including "Не знаю" as a valid answer)
     const unansweredQuestions = questions.filter(q => !answers[q.id]);
     if (unansweredQuestions.length > 0) {
-      setError(`Please answer all questions. ${unansweredQuestions.length} questions remaining.`);
+      setError(`Please answer all questions (you can select "Не знаю" if you don't know the answer). ${unansweredQuestions.length} questions remaining.`);
       return;
     }
 
@@ -82,6 +82,21 @@ const TakeTest = () => {
         {error && <div className="alert alert-error">{error}</div>}
 
         <form onSubmit={handleSubmit}>
+          {/* Информационный блок в начале экзамена */}
+          <div className="exam-info-card">
+            <h3>📝 Важная информация</h3>
+            <div className="exam-info-text">
+              <p>
+                Если вы не знаете правильный ответ на вопрос — не стоит гадать. 
+                Просто выберите вариант «Не знаю».
+              </p>
+              <p>
+                Это важно для корректной оценки ваших знаний и поможет нам точнее 
+                определить темы, которые требуют дополнительного внимания.
+              </p>
+            </div>
+          </div>
+
           {questions.map((question, index) => (
             <div key={question.id} className="question-card">
               <h3>Question {index + 1}</h3>
@@ -130,6 +145,34 @@ const TakeTest = () => {
       </div>
 
       <style jsx>{`
+        .exam-info-card {
+          border: 2px solid #3498db;
+          border-radius: 8px;
+          padding: 1.5rem;
+          margin-bottom: 2rem;
+          background: #ebf3fd;
+          box-shadow: 0 2px 4px rgba(52, 152, 219, 0.1);
+        }
+
+        .exam-info-card h3 {
+          color: #2980b9;
+          margin-bottom: 1rem;
+          font-size: 1.2rem;
+        }
+
+        .exam-info-text {
+          color: #2c3e50;
+          line-height: 1.6;
+        }
+
+        .exam-info-text p {
+          margin-bottom: 0.75rem;
+        }
+
+        .exam-info-text p:last-child {
+          margin-bottom: 0;
+        }
+
         .question-card {
           border: 1px solid #e0e6ed;
           border-radius: 8px;

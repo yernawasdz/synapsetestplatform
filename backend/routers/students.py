@@ -36,9 +36,12 @@ def get_test_questions(
     
     questions = db.query(Question).filter(Question.test_id == test_id).all()
     
-    # Hide correct answers from students during test
+    # Hide correct answers from students during test and add "Не знаю" option
     for question in questions:
         question.correct_answer = None
+        # Add "Не знаю" option if it's not already present
+        if "Не знаю" not in question.options:
+            question.options.append("Не знаю")
     
     return questions
 
