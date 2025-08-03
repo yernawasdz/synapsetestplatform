@@ -18,7 +18,16 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to={isTeacher() ? "/teacher/dashboard" : "/dashboard"} className="navbar-brand">
-          Biology Testing Platform
+          <img 
+            src={process.env.PUBLIC_URL + '/logo.png'} 
+            alt="Logo" 
+            className="navbar-logo" 
+            onError={(e) => {
+              console.log('Logo failed to load:', e.target.src);
+              e.target.style.display = 'none';
+            }}
+          />
+          <span>synapsekz: Exam Platform</span>
         </Link>
         
         <div className="navbar-menu">

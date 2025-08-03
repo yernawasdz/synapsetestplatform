@@ -19,6 +19,15 @@
   text-decoration: none;
   font-size: 1.2rem;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.navbar-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 .navbar-brand:hover {
