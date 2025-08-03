@@ -90,11 +90,7 @@ const Login = () => {
           </button>
         </form>
         
-        <div className="demo-credentials">
-          <h3>Демо-доступ</h3>
-          <p><strong>Учитель:</strong> admin / admin123</p>
-          <p><small>Аккаунты студентов создаются учителями</small></p>
-        </div>
+
       </div>
     </div>
   );
