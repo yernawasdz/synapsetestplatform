@@ -33,21 +33,21 @@ const Navbar = () => {
         <div className="navbar-menu">
           {isTeacher() && (
             <>
-              <Link to="/teacher/dashboard" className="navbar-item">Dashboard</Link>
-              <Link to="/teacher/tests" className="navbar-item">Tests</Link>
+              <Link to="/teacher/dashboard" className="navbar-item">Панель управления</Link>
+              <Link to="/teacher/tests" className="navbar-item">Тесты</Link>
             </>
           )}
           
           {isStudent() && (
             <>
-              <Link to="/dashboard" className="navbar-item">Dashboard</Link>
-              <Link to="/my-results" className="navbar-item">My Results</Link>
+              <Link to="/dashboard" className="navbar-item">Панель управления</Link>
+              <Link to="/my-results" className="navbar-item">Мои результаты</Link>
             </>
           )}
           
           <div className="navbar-user">
             <span className="user-info">{user.name} ({user.role})</span>
-            <button onClick={handleLogout} className="logout-btn">Logout</button>
+            <button onClick={handleLogout} className="logout-btn">Выйти</button>
           </div>
         </div>
       </div>

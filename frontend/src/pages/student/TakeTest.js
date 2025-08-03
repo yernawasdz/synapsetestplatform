@@ -26,7 +26,7 @@ const TakeTest = () => {
       });
       setAnswers(initialAnswers);
     } catch (err) {
-      setError('Failed to load test questions');
+      setError('Не удалось загрузить вопросы экзамена');
       console.error(err);
     } finally {
       setLoading(false);
@@ -46,7 +46,7 @@ const TakeTest = () => {
     // Check if all questions are answered (including "Не знаю" as a valid answer)
     const unansweredQuestions = questions.filter(q => !answers[q.id]);
     if (unansweredQuestions.length > 0) {
-      setError(`Please answer all questions (you can select "Не знаю" if you don't know the answer). ${unansweredQuestions.length} questions remaining.`);
+      setError(`Пожалуйста, ответьте на все вопросы (вы можете выбрать "Не знаю", если не знаете ответ). Осталось ${unansweredQuestions.length} вопросов.`);
       return;
     }
 
@@ -65,19 +65,19 @@ const TakeTest = () => {
       await studentAPI.submitTest(submission);
       navigate(`/result/${testId}`);
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to submit test');
+      setError(err.response?.data?.detail || 'Не удалось отправить экзамен');
       console.error(err);
     } finally {
       setSubmitting(false);
     }
   };
 
-  if (loading) return <div className="loading">Loading test...</div>;
+  if (loading) return <div className="loading">Загрузка экзамена...</div>;
 
   return (
     <div className="container">
       <div className="card">
-        <h1>Take Test</h1>
+        <h1>Пройти экзамен</h1>
         
         {error && <div className="alert alert-error">{error}</div>}
 
@@ -99,7 +99,7 @@ const TakeTest = () => {
 
             {questions.map((question, index) => (
             <div key={question.id} className="question-card">
-              <h3>Question {index + 1}</h3>
+              <h3>Задание {index + 1}</h3>
               <div className="question-text">{question.text}</div>
 
               {question.image_url && (
@@ -138,7 +138,7 @@ const TakeTest = () => {
               className="btn btn-primary" 
               disabled={submitting}
             >
-              {submitting ? 'Submitting...' : 'Submit Test'}
+              {submitting ? 'Отправка...' : 'Отправить экзамен'}
             </button>
           </div>
         </form>

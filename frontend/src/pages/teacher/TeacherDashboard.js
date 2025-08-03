@@ -39,7 +39,7 @@ const TeacherDashboard = () => {
       setTests(testsResponse.data);
       setCategories(categoriesResponse.data);
     } catch (err) {
-      setError('Failed to load dashboard data');
+      setError('Не удалось загрузить данные панели управления');
       console.error(err);
     } finally {
       setLoading(false);
@@ -53,12 +53,12 @@ const TeacherDashboard = () => {
 
     try {
       await teacherAPI.createUser(newUser);
-      setSuccess(`${newUser.role === 'student' ? 'Student' : 'Teacher'} created successfully`);
+      setSuccess(`${newUser.role === 'student' ? 'Студент' : 'Учитель'} создан успешно`);
       setNewUser({ username: '', password: '', role: 'student', name: '' });
       setShowCreateUser(false);
       fetchData();
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to create user');
+      setError(err.response?.data?.detail || 'Не удалось создать пользователя');
     }
   };
 
@@ -69,23 +69,23 @@ const TeacherDashboard = () => {
 
     try {
       await teacherAPI.createCategory(newCategory);
-      setSuccess('Category created successfully');
+      setSuccess('Раздел создан успешно');
       setNewCategory({ name: '' });
       setShowCreateCategory(false);
       fetchData();
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to create category');
+      setError(err.response?.data?.detail || 'Не удалось создать раздел');
     }
   };
 
   const students = users.filter(user => user.role === 'student');
   const teachers = users.filter(user => user.role === 'teacher');
 
-  if (loading) return <div className="loading">Loading dashboard...</div>;
+  if (loading) return <div className="loading">Загрузка панели управления...</div>;
 
   return (
     <div className="container">
-      <h1>Teacher Dashboard</h1>
+      <h1>Панель управления учителя</h1>
 
       {error && <div className="alert alert-error">{error}</div>}
       {success && <div className="alert alert-success">{success}</div>}
@@ -93,19 +93,19 @@ const TeacherDashboard = () => {
       <div className="dashboard-grid">
         {/* Quick Stats */}
         <div className="card stats-card">
-          <h2>Quick Stats</h2>
+          <h2>Быстрая статистика</h2>
           <div className="stats-grid">
             <div className="stat-item">
               <div className="stat-number">{students.length}</div>
-              <div className="stat-label">Students</div>
+              <div className="stat-label">Студентов</div>
             </div>
             <div className="stat-item">
               <div className="stat-number">{tests.length}</div>
-              <div className="stat-label">Tests</div>
+              <div className="stat-label">Тестов</div>
             </div>
             <div className="stat-item">
               <div className="stat-number">{categories.length}</div>
-              <div className="stat-label">Categories</div>
+              <div className="stat-label">Разделов</div>
             </div>
           </div>
         </div>
@@ -113,12 +113,12 @@ const TeacherDashboard = () => {
         {/* User Management */}
         <div className="card">
           <div className="card-header">
-            <h2>User Management</h2>
+            <h2>Управление пользователями</h2>
             <button 
               className="btn btn-primary"
               onClick={() => setShowCreateUser(!showCreateUser)}
             >
-              Add User
+              Добавить пользователя
             </button>
           </div>
 
@@ -126,7 +126,7 @@ const TeacherDashboard = () => {
             <form onSubmit={handleCreateUser} className="create-form">
               <div className="form-row">
                 <div className="form-group">
-                  <label>Username</label>
+                  <label>Имя пользователя</label>
                   <input
                     type="text"
                     value={newUser.username}
@@ -135,7 +135,7 @@ const TeacherDashboard = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Name</label>
+                  <label>Имя</label>
                   <input
                     type="text"
                     value={newUser.name}
@@ -146,7 +146,7 @@ const TeacherDashboard = () => {
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Password</label>
+                  <label>Пароль</label>
                   <input
                     type="password"
                     value={newUser.password}
@@ -155,24 +155,24 @@ const TeacherDashboard = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Role</label>
+                  <label>Роль</label>
                   <select
                     value={newUser.role}
                     onChange={(e) => setNewUser({...newUser, role: e.target.value})}
                   >
-                    <option value="student">Student</option>
-                    <option value="teacher">Teacher</option>
+                    <option value="student">Студент</option>
+                    <option value="teacher">Учитель</option>
                   </select>
                 </div>
               </div>
               <div className="form-actions">
-                <button type="submit" className="btn btn-success">Create User</button>
+                <button type="submit" className="btn btn-success">Создать пользователя</button>
                 <button 
                   type="button" 
                   className="btn btn-secondary"
                   onClick={() => setShowCreateUser(false)}
                 >
-                  Cancel
+                  Отмена
                 </button>
               </div>
             </form>
@@ -180,7 +180,7 @@ const TeacherDashboard = () => {
 
           <div className="user-lists">
             <div className="user-section">
-              <h3>Students ({students.length})</h3>
+              <h3>Студенты ({students.length})</h3>
               <div className="user-list">
                 {students.map(student => (
                   <div key={student.id} className="user-item">
@@ -192,16 +192,16 @@ const TeacherDashboard = () => {
                       to={`/teacher/student/${student.id}`}
                       className="btn btn-primary btn-sm"
                     >
-                      View
+                      Просмотр
                     </Link>
                   </div>
                 ))}
-                {students.length === 0 && <p>No students yet</p>}
+                {students.length === 0 && <p>Студентов пока нет</p>}
               </div>
             </div>
 
             <div className="user-section">
-              <h3>Teachers ({teachers.length})</h3>
+              <h3>Учителя ({teachers.length})</h3>
               <div className="user-list">
                 {teachers.map(teacher => (
                   <div key={teacher.id} className="user-item">
@@ -219,35 +219,35 @@ const TeacherDashboard = () => {
         {/* Categories Management */}
         <div className="card">
           <div className="card-header">
-            <h2>Categories</h2>
+            <h2>Разделы</h2>
             <button 
               className="btn btn-primary"
               onClick={() => setShowCreateCategory(!showCreateCategory)}
             >
-              Add Category
+              Добавить раздел
             </button>
           </div>
 
           {showCreateCategory && (
             <form onSubmit={handleCreateCategory} className="create-form">
               <div className="form-group">
-                <label>Category Name</label>
+                <label>Название раздела</label>
                 <input
                   type="text"
                   value={newCategory.name}
                   onChange={(e) => setNewCategory({name: e.target.value})}
-                  placeholder="e.g., Genetics, Cell Biology"
+                  placeholder="например: Генетика, Биология клетки"
                   required
                 />
               </div>
               <div className="form-actions">
-                <button type="submit" className="btn btn-success">Create Category</button>
+                <button type="submit" className="btn btn-success">Создать раздел</button>
                 <button 
                   type="button" 
                   className="btn btn-secondary"
                   onClick={() => setShowCreateCategory(false)}
                 >
-                  Cancel
+                  Отмена
                 </button>
               </div>
             </form>
@@ -259,19 +259,19 @@ const TeacherDashboard = () => {
                 {category.name}
               </div>
             ))}
-            {categories.length === 0 && <p>No categories yet</p>}
+            {categories.length === 0 && <p>Разделов пока нет</p>}
           </div>
         </div>
 
         {/* Quick Actions */}
         <div className="card">
-          <h2>Quick Actions</h2>
+          <h2>Быстрые действия</h2>
           <div className="action-buttons">
             <Link to="/teacher/tests" className="btn btn-primary">
-              Manage Tests
+              Управление тестами
             </Link>
             <Link to="/teacher/tests/new/edit" className="btn btn-success">
-              Create New Test
+              Создать новый тест
             </Link>
           </div>
         </div>

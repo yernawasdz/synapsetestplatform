@@ -17,7 +17,7 @@ const TestResult = () => {
       const response = await studentAPI.getDetailedResult(testId);
       setDetailedResult(response.data);
     } catch (err) {
-      setError('Failed to load test results');
+      setError('Не удалось загрузить результаты экзамена');
       console.error(err);
     } finally {
       setLoading(false);
@@ -39,7 +39,7 @@ const TestResult = () => {
     }));
   };
 
-  if (loading) return <div className="loading">Loading results...</div>;
+  if (loading) return <div className="loading">Загрузка результатов...</div>;
 
   if (error) {
     return (
@@ -56,7 +56,7 @@ const TestResult = () => {
   return (
     <div className="container">
       <div className="card">
-        <h1>Test Results: {test.title}</h1>
+        <h1>Результаты экзамена: {test.title}</h1>
         
         <div className="result-summary">
           <div className="score-display">
@@ -68,22 +68,22 @@ const TestResult = () => {
           </div>
           
           <div className="result-info">
-            <p><strong>Test:</strong> {test.title}</p>
-            <p><strong>Completed:</strong> {new Date(result.timestamp).toLocaleString()}</p>
-            <p><strong>Total Questions:</strong> {questions.length}</p>
+            <p><strong>Экзамен:</strong> {test.title}</p>
+            <p><strong>Завершен:</strong> {new Date(result.timestamp).toLocaleString()}</p>
+            <p><strong>Всего вопросов:</strong> {questions.length}</p>
           </div>
         </div>
 
         {result.recommendation && (
           <div className="recommendation">
-            <h3>Teacher's Recommendation</h3>
+            <h3>Рекомендация учителя</h3>
             <p>{result.recommendation}</p>
           </div>
         )}
 
         {categoryPerformance.length > 0 && (
           <div className="category-breakdown">
-            <h3>Performance by Category</h3>
+            <h3>Результаты по разделам</h3>
             <div className="category-grid">
               {categoryPerformance.map((cat, index) => (
                 <div key={index} className="category-item">
@@ -104,13 +104,13 @@ const TestResult = () => {
         )}
 
         <div className="detailed-answers">
-          <h3>Detailed Answers</h3>
+          <h3>Детальные ответы</h3>
           {questions.map((item, index) => (
             <div key={item.question.id} className="answer-item">
               <div className="question-header">
-                <h4>Question {index + 1}</h4>
+                <h4>Задание {index + 1}</h4>
                 <span className={`result-badge ${item.is_correct ? 'correct' : 'incorrect'}`}>
-                  {item.is_correct ? '✅ Correct' : '❌ Incorrect'}
+                  {item.is_correct ? '✅ Правильно' : '❌ Неправильно'}
                 </span>
               </div>
               
@@ -125,15 +125,15 @@ const TestResult = () => {
 
                 <div className="answer-details">
                   <div className="answer-row">
-                    <strong>Your Answer:</strong>
+                    <strong>Ваш ответ:</strong>
                     <span className={item.is_correct ? 'correct-answer' : 'wrong-answer'}>
-                      {item.student_answer || 'No answer provided'}
+                      {item.student_answer || 'Ответ не предоставлен'}
                     </span>
                   </div>
                   
                   {!item.is_correct && (
                     <div className="answer-row">
-                      <strong>Correct Answer:</strong>
+                      <strong>Правильный ответ:</strong>
                       <span className="correct-answer">{item.correct_answer}</span>
                     </div>
                   )}
@@ -144,8 +144,8 @@ const TestResult = () => {
         </div>
 
         <div className="actions">
-          <Link to="/dashboard" className="btn btn-primary">Back to Dashboard</Link>
-          <Link to="/my-results" className="btn btn-secondary">View All Results</Link>
+          <Link to="/dashboard" className="btn btn-primary">Вернуться к панели управления</Link>
+          <Link to="/my-results" className="btn btn-secondary">Посмотреть все результаты</Link>
         </div>
       </div>
 

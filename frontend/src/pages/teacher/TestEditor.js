@@ -247,13 +247,13 @@ const TestEditor = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Category</label>
+                  <label>Раздел</label>
                   <select
                     value={questionForm.category_id}
                     onChange={(e) => setQuestionForm({ ...questionForm, category_id: e.target.value })}
                     required
                   >
-                    <option value="">Select Category</option>
+                    <option value="">Выберите раздел</option>
                     {categories.map(category => (
                       <option key={category.id} value={category.id}>
                         {category.name}
@@ -378,7 +378,7 @@ const TestEditor = () => {
 
                   <div className="question-meta">
                     <span className="category-tag">
-                      {categories.find(cat => cat.id === question.category_id)?.name || 'Unknown Category'}
+                      {categories.find(cat => cat.id === question.category_id)?.name || 'Неизвестный раздел'}
                     </span>
                   </div>
                 </div>

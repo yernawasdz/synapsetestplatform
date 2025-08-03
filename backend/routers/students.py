@@ -24,6 +24,9 @@ def get_available_tests(
     tests = db.query(Test).all()
     return tests
 
+
+
+
 @router.get("/test/{test_id}/questions", response_model=List[QuestionResponse])
 def get_test_questions(
     test_id: int,

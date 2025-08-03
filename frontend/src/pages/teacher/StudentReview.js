@@ -192,7 +192,7 @@ const StudentReview = () => {
 
             {getCategoryPerformance().length > 0 && (
               <div className="category-performance">
-                <h3>Performance by Category</h3>
+                <h3>Результаты по разделам</h3>
                 <div className="category-grid">
                   {getCategoryPerformance().map((cat, index) => (
                     <div key={index} className="category-item">

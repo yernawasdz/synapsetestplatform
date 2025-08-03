@@ -16,7 +16,7 @@ const MyResults = () => {
       const response = await studentAPI.getMyResults();
       setResults(response.data);
     } catch (err) {
-      setError('Failed to load test results');
+      setError('Не удалось загрузить результаты экзаменов');
       console.error(err);
     } finally {
       setLoading(false);
@@ -43,30 +43,30 @@ const MyResults = () => {
     return total / results.length;
   };
 
-  if (loading) return <div className="loading">Loading results...</div>;
+  if (loading) return <div className="loading">Загрузка результатов...</div>;
 
   return (
     <div className="container">
       <div className="card">
-        <h1>My Test Results</h1>
+        <h1>Мои результаты экзаменов</h1>
 
         {error && <div className="alert alert-error">{error}</div>}
 
         {results.length === 0 ? (
           <div className="no-results">
-            <h3>No test results yet</h3>
-            <p>You haven't completed any tests yet.</p>
-            <Link to="/dashboard" className="btn btn-primary">Take a Test</Link>
+            <h3>Результатов экзаменов пока нет</h3>
+            <p>Вы еще не проходили экзамены.</p>
+            <Link to="/dashboard" className="btn btn-primary">Пройти экзамен</Link>
           </div>
         ) : (
           <>
             <div className="results-overview">
               <div className="stat-card">
-                <h3>Tests Completed</h3>
+                <h3>Завершенных экзаменов</h3>
                 <div className="stat-value">{results.length}</div>
               </div>
               <div className="stat-card">
-                <h3>Average Score</h3>
+                <h3>Средний балл</h3>
                 <div 
                   className="stat-value" 
                   style={{ color: getScoreColor(calculateAverageScore()) }}
@@ -75,7 +75,7 @@ const MyResults = () => {
                 </div>
               </div>
               <div className="stat-card">
-                <h3>Best Score</h3>
+                <h3>Лучший результат</h3>
                 <div 
                   className="stat-value" 
                   style={{ color: getScoreColor(Math.max(...results.map(r => r.score))) }}
@@ -87,11 +87,11 @@ const MyResults = () => {
 
             <div className="results-table">
               <div className="table-header">
-                <div className="header-cell">Test</div>
-                <div className="header-cell">Score</div>
-                <div className="header-cell">Grade</div>
-                <div className="header-cell">Date</div>
-                <div className="header-cell">Actions</div>
+                <div className="header-cell">Экзамен</div>
+                <div className="header-cell">Балл</div>
+                <div className="header-cell">Оценка</div>
+                <div className="header-cell">Дата</div>
+                <div className="header-cell">Действия</div>
               </div>
 
               {results
@@ -99,9 +99,9 @@ const MyResults = () => {
                 .map(result => (
                 <div key={result.id} className="table-row">
                   <div className="cell">
-                    <strong>Test #{result.test_id}</strong>
+                    <strong>Экзамен #{result.test_id}</strong>
                     {result.recommendation && (
-                      <div className="has-recommendation">📝 Has feedback</div>
+                      <div className="has-recommendation">📝 Есть отзыв</div>
                     )}
                   </div>
                   <div className="cell">
@@ -131,7 +131,7 @@ const MyResults = () => {
                       to={`/result/${result.test_id}`} 
                       className="btn btn-primary btn-sm"
                     >
-                      View Details
+                      Посмотреть детали
                     </Link>
                   </div>
                 </div>
@@ -139,7 +139,7 @@ const MyResults = () => {
             </div>
 
             <div className="actions">
-              <Link to="/dashboard" className="btn btn-primary">Back to Dashboard</Link>
+              <Link to="/dashboard" className="btn btn-primary">Вернуться к панели управления</Link>
             </div>
           </>
         )}

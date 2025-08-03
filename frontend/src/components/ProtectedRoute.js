@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children, requireRole = null }) => {
   const { isAuthenticated, isTeacher, isStudent, loading } = useAuth();
 
   if (loading) {
-    return <div className="loading-spinner">Loading...</div>;
+    return <div className="loading-spinner">Загрузка...</div>;
   }
 
   if (!isAuthenticated()) {

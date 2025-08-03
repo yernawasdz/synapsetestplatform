@@ -54,13 +54,13 @@ const Login = () => {
           />
         </div>
         <h1>synapsekz: Exam Platform</h1>
-        <h2>Login</h2>
+        <h2>Вход</h2>
         
         <form onSubmit={handleSubmit} className="login-form">
           {error && <div className="error-message">{error}</div>}
           
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Имя пользователя</label>
             <input
               type="text"
               id="username"
@@ -73,7 +73,7 @@ const Login = () => {
           </div>
           
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Пароль</label>
             <input
               type="password"
               id="password"
@@ -86,14 +86,14 @@ const Login = () => {
           </div>
           
           <button type="submit" className="login-btn" disabled={loading}>
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? 'Вход...' : 'Войти'}
           </button>
         </form>
         
         <div className="demo-credentials">
-          <h3>Demo Credentials</h3>
-          <p><strong>Teacher:</strong> admin / admin123</p>
-          <p><small>Students accounts are created by teachers</small></p>
+          <h3>Демо-доступ</h3>
+          <p><strong>Учитель:</strong> admin / admin123</p>
+          <p><small>Аккаунты студентов создаются учителями</small></p>
         </div>
       </div>
     </div>

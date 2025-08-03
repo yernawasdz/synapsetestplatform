@@ -17,7 +17,7 @@ const TestManagement = () => {
       const response = await teacherAPI.getTests();
       setTests(response.data);
     } catch (err) {
-      setError('Failed to load tests');
+      setError('Не удалось загрузить экзамены');
       console.error(err);
     } finally {
       setLoading(false);
@@ -25,16 +25,16 @@ const TestManagement = () => {
   };
 
   const handleDeleteTest = async (testId, testTitle) => {
-    if (!window.confirm(`Are you sure you want to delete "${testTitle}"? This action cannot be undone.`)) {
+    if (!window.confirm(`Вы уверены, что хотите удалить "${testTitle}"? Это действие нельзя отменить.`)) {
       return;
     }
 
     try {
       await teacherAPI.deleteTest(testId);
-      setSuccess('Test deleted successfully');
+      setSuccess('Тест успешно удален');
       fetchTests();
     } catch (err) {
-      setError(err.response?.data?.detail || 'Failed to delete test');
+      setError(err.response?.data?.detail || 'Не удалось удалить тест');
     }
   };
 
@@ -65,24 +65,24 @@ const TestManagement = () => {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
       
-      setSuccess(`Results exported successfully for "${testTitle}"`);
+      setSuccess(`Результаты успешно экспортированы для "${testTitle}"`);
     } catch (err) {
       if (err.response?.status === 404) {
-        setError('No results found for this test yet');
+        setError('Для этого экзамена пока нет результатов');
       } else {
-        setError(err.response?.data?.detail || 'Failed to export results');
+        setError(err.response?.data?.detail || 'Не удалось экспортировать результаты');
       }
     }
   };
 
-  if (loading) return <div className="loading">Loading tests...</div>;
+  if (loading) return <div className="loading">Загрузка экзаменов...</div>;
 
   return (
     <div className="container">
       <div className="page-header">
-        <h1>Test Management</h1>
+        <h1>Управление экзаменами</h1>
         <Link to="/teacher/tests/new/edit" className="btn btn-primary">
-          Create New Test
+          Создать новый экзамен
         </Link>
       </div>
 
@@ -91,10 +91,10 @@ const TestManagement = () => {
 
       {tests.length === 0 ? (
         <div className="card no-tests">
-          <h3>No tests created yet</h3>
-          <p>Start by creating your first test to assess student knowledge.</p>
+          <h3>Экзамены еще не созданы</h3>
+          <p>Начните с создания первого экзамена для оценки знаний студентов.</p>
           <Link to="/teacher/tests/new/edit" className="btn btn-primary">
-            Create First Test
+            Создать первый экзамен
           </Link>
         </div>
       ) : (
@@ -107,21 +107,21 @@ const TestManagement = () => {
                   <button
                     onClick={() => handleExportResults(test.id, test.title)}
                     className="btn btn-success btn-sm"
-                    title="Export test results to CSV"
+                    title="Экспортировать результаты экзамена в CSV"
                   >
-                    Export
+                    Экспорт
                   </button>
                   <Link 
                     to={`/teacher/tests/${test.id}/edit`}
                     className="btn btn-secondary btn-sm"
                   >
-                    Edit
+                    Редактировать
                   </Link>
                   <button
                     onClick={() => handleDeleteTest(test.id, test.title)}
                     className="btn btn-danger btn-sm"
                   >
-                    Delete
+                    Удалить
                   </button>
                 </div>
               </div>
@@ -133,11 +133,11 @@ const TestManagement = () => {
 
                 <div className="test-stats">
                   <div className="stat">
-                    <span className="stat-label">Questions:</span>
+                    <span className="stat-label">Вопросов:</span>
                     <span className="stat-value">{test.questions ? test.questions.length : 0}</span>
                   </div>
                   <div className="stat">
-                    <span className="stat-label">Created:</span>
+                    <span className="stat-label">Создан:</span>
                     <span className="stat-value">
                       {new Date(test.created_at).toLocaleDateString()}
                     </span>
@@ -149,7 +149,7 @@ const TestManagement = () => {
                     to={`/teacher/tests/${test.id}/edit`}
                     className="btn btn-primary"
                   >
-                    Manage Questions
+                    Управление вопросами
                   </Link>
                 </div>
               </div>
@@ -160,7 +160,7 @@ const TestManagement = () => {
 
       <div className="page-actions">
         <Link to="/teacher/dashboard" className="btn btn-secondary">
-          Back to Dashboard
+          Вернуться к панели управления
         </Link>
       </div>
 
