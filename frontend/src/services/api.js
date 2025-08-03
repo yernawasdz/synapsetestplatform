@@ -68,6 +68,13 @@ export const teacherAPI = {
     api.put(`/teacher/test-result/${resultId}/recommendation`, recommendation, {
       headers: { 'Content-Type': 'text/plain' }
     }),
+
+  // Export results
+  exportTestResults: (testId) => {
+    return api.get(`/teacher/tests/${testId}/export-results`, {
+      responseType: 'blob', // Important for file download
+    });
+  },
 };
 
 // Student API

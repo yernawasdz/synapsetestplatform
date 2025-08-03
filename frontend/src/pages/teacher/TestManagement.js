@@ -38,6 +38,43 @@ const TestManagement = () => {
     }
   };
 
+  const handleExportResults = async (testId, testTitle) => {
+    try {
+      setError('');
+      const response = await teacherAPI.exportTestResults(testId);
+      
+      // Create blob and download
+      const blob = new Blob([response.data], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      
+      // Get filename from response headers or create one
+      const contentDisposition = response.headers['content-disposition'];
+      let filename = `${testTitle}_results.csv`;
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename=(.+)/);
+        if (filenameMatch) {
+          filename = filenameMatch[1].replace(/"/g, '');
+        }
+      }
+      
+      link.setAttribute('download', filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+      
+      setSuccess(`Results exported successfully for "${testTitle}"`);
+    } catch (err) {
+      if (err.response?.status === 404) {
+        setError('No results found for this test yet');
+      } else {
+        setError(err.response?.data?.detail || 'Failed to export results');
+      }
+    }
+  };
+
   if (loading) return <div className="loading">Loading tests...</div>;
 
   return (
@@ -67,6 +104,13 @@ const TestManagement = () => {
               <div className="test-header">
                 <h3>{test.title}</h3>
                 <div className="test-actions">
+                  <button
+                    onClick={() => handleExportResults(test.id, test.title)}
+                    className="btn btn-success btn-sm"
+                    title="Export test results to CSV"
+                  >
+                    Export
+                  </button>
                   <Link 
                     to={`/teacher/tests/${test.id}/edit`}
                     className="btn btn-secondary btn-sm"

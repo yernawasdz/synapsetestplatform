@@ -1,6 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 from typing import List
+import csv
+import io
 from database import get_db
 from models.user import User, UserRole
 from models.category import Category
@@ -331,3 +334,74 @@ def update_recommendation(
     db.commit()
     db.refresh(test_result)
     return test_result
+
+# Export test results to CSV
+@router.get("/tests/{test_id}/export-results")
+def export_test_results(
+    test_id: int,
+    db: Session = Depends(get_db),
+    current_teacher: User = Depends(require_teacher)
+):
+    # Get test details
+    test = db.query(Test).filter(Test.id == test_id).first()
+    if not test:
+        raise HTTPException(status_code=404, detail="Test not found")
+    
+    # Get all test results for this test
+    test_results = db.query(TestResult).filter(TestResult.test_id == test_id).all()
+    
+    if not test_results:
+        raise HTTPException(status_code=404, detail="No results found for this test")
+    
+    # Get all categories used in this test to determine columns
+    questions = db.query(Question).filter(Question.test_id == test_id).all()
+    category_ids = list(set([q.category_id for q in questions if q.category_id]))
+    categories = db.query(Category).filter(Category.id.in_(category_ids)).all() if category_ids else []
+    category_names = [cat.name for cat in categories]
+    
+    # Create CSV data
+    output = io.StringIO()
+    writer = csv.writer(output)
+    
+    # Write header
+    header = ["Name", "Username", "Overall Score (%)"] + [f"{cat_name} Score (%)" for cat_name in category_names]
+    writer.writerow(header)
+    
+    # Write data rows
+    for result in test_results:
+        user = result.user
+        row = [
+            user.name,
+            user.username,
+            f"{result.score:.1f}"
+        ]
+        
+        # Add category scores
+        category_breakdown = result.category_breakdown or {}
+        for cat_name in category_names:
+            # Find category score in breakdown
+            category_score = ""
+            if category_breakdown and cat_name in category_breakdown:
+                score_data = category_breakdown[cat_name]
+                if isinstance(score_data, dict) and 'percentage' in score_data:
+                    category_score = f"{score_data['percentage']:.1f}"
+                elif isinstance(score_data, (int, float)):
+                    category_score = f"{score_data:.1f}"
+                else:
+                    category_score = str(score_data) if score_data else ""
+            row.append(category_score)
+        
+        writer.writerow(row)
+    
+    # Prepare response
+    output.seek(0)
+    
+    # Create filename with test title
+    safe_title = "".join(c for c in test.title if c.isalnum() or c in (' ', '-', '_')).rstrip()
+    filename = f"{safe_title}_results.csv"
+    
+    return StreamingResponse(
+        io.BytesIO(output.getvalue().encode('utf-8')),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
