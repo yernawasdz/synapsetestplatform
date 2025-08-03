@@ -81,7 +81,7 @@ const TakeTest = () => {
         
         {error && <div className="alert alert-error">{error}</div>}
 
-        <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleSubmit}>
           {/* Информационный блок в начале экзамена */}
           <div className="exam-info-card">
             <h3>📝 Важная информация</h3>
@@ -97,7 +97,7 @@ const TakeTest = () => {
             </div>
           </div>
 
-          {questions.map((question, index) => (
+            {questions.map((question, index) => (
             <div key={question.id} className="question-card">
               <h3>Question {index + 1}</h3>
               <div className="question-text">{question.text}</div>
